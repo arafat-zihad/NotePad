@@ -1,4 +1,6 @@
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -6,7 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class NotePad {
+public class NotePad implements ActionListener {
     // Declaring propertise of NotePad
     JFrame frame;
 
@@ -34,6 +36,18 @@ public class NotePad {
         openFile = new JMenuItem("Open File"); 
         saveFile = new JMenuItem("Save File");
 
+        //Between Initialization and add items add Axtion listener to file menus
+        newFile.addActionListener(this); //this keyword refering to te object of NotePad
+        openFile.addActionListener(this);
+        saveFile.addActionListener(this);
+
+        //add menu items to file manu
+        file.add(newFile); 
+        file.add(openFile);
+        file.add(saveFile);
+
+
+
         //Initialize edit menu items
         cut = new JMenuItem("Cut");
         copy = new JMenuItem("Copy");
@@ -41,6 +55,12 @@ public class NotePad {
         selectAll = new JMenuItem("Select All");
         close = new JMenuItem("Close");
 
+        //Between Initialization and add items add Axtion listener to edit menu items
+        cut.addActionListener(this);
+        copy.addActionListener(this);
+        paste.addActionListener(this);
+        selectAll.addActionListener(this);
+        close.addActionListener(this);
 
         //add menu item to edit manu
         edit.add(cut);
@@ -49,10 +69,7 @@ public class NotePad {
         edit.add(selectAll);
         edit.add(close);
 
-        //add menu items to file manu
-        file.add(newFile); 
-        file.add(openFile);
-        file.add(saveFile);
+        
 
         //add menu1 to menubar
         menuBar.add(file); 
@@ -71,6 +88,19 @@ public class NotePad {
         frame.setVisible(true);
     }
     
+    @Override
+    public void actionPerformed(ActionEvent actionEvent){ //It respons when user interacts via ActionListener interface  when a even occour what it
+    //first we need to get the source of the action event
+    /*
+    if(actionEven.getSource() == cut) {
+        Perform cut operation
+    }
+    if(actionEven.getSource() == copy) {
+        Perform copy operation
+    }
+    */
+
+    }
 
     
     public static void main(String[] args) {
