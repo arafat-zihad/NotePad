@@ -91,14 +91,22 @@ public class NotePad implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent){ //It respons when user interacts via ActionListener interface  when a even occour what it
     //first we need to get the source of the action event
-    /*
-    if(actionEven.getSource() == cut) {
-        Perform cut operation
-    }
-    if(actionEven.getSource() == copy) {
-        Perform copy operation
-    }
-    */
+        if(actionEvent.getSource()==cut){
+            textArea.cut();
+        }
+
+        if(actionEvent.getSource()==copy){
+            textArea.copy();
+        }
+        if(actionEvent.getSource()==paste){
+            textArea.paste();
+        }
+        if(actionEvent.getSource()==selectAll){
+            textArea.selectAll();
+        }
+        if(actionEvent.getSource()==close){
+            System.exit(0);
+        }
 
     }
 
