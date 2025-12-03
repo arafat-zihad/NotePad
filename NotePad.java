@@ -1,6 +1,14 @@
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -13,7 +21,6 @@ public class NotePad implements ActionListener {
     JFrame frame;
 
     JMenuBar menuBar;
-
     JMenu file, edit;
 
     JMenuItem newFile, openFile, saveFile;
@@ -25,8 +32,6 @@ public class NotePad implements ActionListener {
         frame = new JFrame(); //Initialize a frame
         menuBar = new JMenuBar(); //Initialize a manubar
         textArea = new JTextArea(); //Initialize a textarea
-
-
 
         file = new JMenu("File"); //Initialize manu 1
         edit = new JMenu("Edit"); //Initialize manu 2
@@ -45,8 +50,6 @@ public class NotePad implements ActionListener {
         file.add(newFile); 
         file.add(openFile);
         file.add(saveFile);
-
-
 
         //Initialize edit menu items
         cut = new JMenuItem("Cut");
@@ -74,8 +77,11 @@ public class NotePad implements ActionListener {
         //add menu1 to menubar
         menuBar.add(file); 
         menuBar.add(edit);
+
         frame.setJMenuBar(menuBar); // set menuBar to frame
-        frame.add(new JScrollPane(textArea)); // add text area inside a scroll pane
+
+        JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        frame.add(scrollPane, BorderLayout.CENTER);
 
         frame.setBounds(0, 0, 500, 500);
         frame.setTitle("NotePad");
@@ -108,9 +114,47 @@ public class NotePad implements ActionListener {
             System.exit(0);
         }
 
+        if(actionEvent.getSource()==openFile){
+            JFileChooser fileChooser = new JFileChooser("C:");
+            int chooseOption = fileChooser.showOpenDialog(null);
+            if(chooseOption==JFileChooser.APPROVE_OPTION){
+                File file = fileChooser.getSelectedFile();
+                String filePath = file.getPath();
+                try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+                    String intermediate;
+                    StringBuilder output = new StringBuilder();
+                    while ((intermediate = bufferedReader.readLine()) != null) {
+                        output.append(intermediate).append('\n');
+                    }
+                    textArea.setText(output.toString());
+                } catch (IOException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
+
+
+            }
+        }
+
+        if(actionEvent.getSource() == saveFile){
+            JFileChooser fileChooser = new JFileChooser("C:");
+            int chooseOption = fileChooser.showSaveDialog(null);
+            if(chooseOption == JFileChooser.APPROVE_OPTION){
+                File file = new File(fileChooser.getSelectedFile().getAbsolutePath()+".txt");
+
+                try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
+                    textArea.write(bufferedWriter);
+                } catch (IOException iOException) {
+                    iOException.printStackTrace();
+                }
+            }
+        }
+
+        if(actionEvent.getSource()==newFile){
+            NotePad newTextEditorr = new NotePad();
+        }
+
     }
 
-    
     public static void main(String[] args) {
         NotePad notePad = new NotePad();
     }
