@@ -136,15 +136,15 @@ public class NotePad implements ActionListener {
         }
 
         if(actionEvent.getSource() == saveFile){
-            JFileChooser fileChooser = new JFileChooser("C:");
-            int chooseOption = fileChooser.showSaveDialog(null);
-            if(chooseOption == JFileChooser.APPROVE_OPTION){
-                File file = new File(fileChooser.getSelectedFile().getAbsolutePath()+".txt");
+            JFileChooser fileChooser = new JFileChooser("C:");  //open file chooser, starting from C drive
+            int chooseOption = fileChooser.showSaveDialog(null);    //int tells what the user clicked
+            if(chooseOption == JFileChooser.APPROVE_OPTION){    //if clicked Save....
+                File file = new File(fileChooser.getSelectedFile().getAbsolutePath()+".txt");   //select location + give full path + add .txt
 
-                try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
+                try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) { //closes writer automatically
                     textArea.write(bufferedWriter);
-                } catch (IOException iOException) {
-                    iOException.printStackTrace();
+                } catch (IOException iOException) { //prints errors if something goes wrong
+                    iOException.printStackTrace(); // printStackTrack print error details, IOException: Something went wrong while input/output (I/O) operation.
                 }
             }
         }
